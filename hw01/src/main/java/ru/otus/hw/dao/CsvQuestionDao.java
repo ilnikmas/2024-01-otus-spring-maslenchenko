@@ -9,8 +9,7 @@ import ru.otus.hw.dao.dto.QuestionDto;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.exceptions.QuestionReadException;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,11 +22,11 @@ public class CsvQuestionDao implements QuestionDao {
         Resource resource = new ClassPathResource(fileNameProvider.getTestFileName());
         List<QuestionDto> questions;
         try {
-            questions = new CsvToBeanBuilder<QuestionDto>(new FileReader(resource.getFile()))
+            questions = new CsvToBeanBuilder<QuestionDto>(new InputStreamReader(resource.getInputStream()))
                     .withSeparator(';')
                     .withType(QuestionDto.class).build().parse();
         } catch (IOException e) {
-            throw new QuestionReadException("Error while reading file", new RuntimeException());
+            throw new QuestionReadException("Error while reading file", e);
         }
         return questions.stream().map(QuestionDto::toDomainObject).collect(Collectors.toList());
     }
