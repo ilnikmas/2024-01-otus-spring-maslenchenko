@@ -9,9 +9,11 @@ class TestRunnerServiceImplTest {
 
     private static TestRunnerServiceImpl testRunnerService;
 
+    private static TestServiceImpl testService;
+
     @BeforeAll
     static void setUp() {
-        TestServiceImpl testService = mock(TestServiceImpl.class);
+        testService = mock(TestServiceImpl.class);
         testRunnerService = new TestRunnerServiceImpl(testService);
     }
 
@@ -19,6 +21,6 @@ class TestRunnerServiceImplTest {
     public void serviceRunTest() {
         TestRunnerServiceImpl service = spy(testRunnerService);
         service.run();
-        verify(service).run();
+        verify(testService).executeTest();
     }
 }

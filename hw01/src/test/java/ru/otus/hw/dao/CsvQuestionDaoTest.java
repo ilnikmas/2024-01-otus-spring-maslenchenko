@@ -36,8 +36,6 @@ class CsvQuestionDaoTest {
         String wrongFileName = "/wrongFileName.csv";
         when(appProperties.getTestFileName()).thenReturn(wrongFileName);
         CsvQuestionDao dao = new CsvQuestionDao(appProperties);
-        assertThrows(QuestionReadException.class, () -> {
-            List<Question> questions = dao.findAll();
-        });
+        assertThrows(QuestionReadException.class, dao::findAll);
     }
 }
