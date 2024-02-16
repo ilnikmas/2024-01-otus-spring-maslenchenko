@@ -26,7 +26,11 @@ public class TestServiceImpl implements TestService {
         for (var question: questions) {
             var isAnswerValid = false; // Задать вопрос, получить ответ
             int max = question.answers().size();
-            int answerIndex = ioService.readIntForRangeWithPrompt(1, max, questionToString(question), "Введите целое число от 1 до " + max) - 1;
+            int answerIndex = ioService.readIntForRangeWithPrompt(
+                    1,
+                    max,
+                    questionToString(question),
+                    "Введите целое число от 1 до " + max) - 1;
             isAnswerValid = question.answers().get(answerIndex).isCorrect();
             testResult.applyAnswer(question, isAnswerValid);
         }
@@ -34,12 +38,10 @@ public class TestServiceImpl implements TestService {
     }
 
     private String questionToString(Question question) {
-        StringBuilder resultString = new StringBuilder(question.text());
-        resultString.append("\n");
-        int index = 1;
-        for (Answer answer : question.answers()) {
-            resultString.append(index++).append(". ");
-            resultString.append(answer.text());
+        StringBuilder resultString = new StringBuilder(question.text()).append("\n");
+        for (int i = 0; i < question.answers().size(); i++) {
+            resultString.append(i + 1).append(". ");
+            resultString.append(question.answers().get(i).text());
             resultString.append("\n");
         }
         return resultString.toString();
