@@ -7,6 +7,8 @@ import ru.otus.hw.domain.Question;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class TestServiceImpl implements TestService {
@@ -24,18 +26,23 @@ public class TestServiceImpl implements TestService {
         var questions = questionDao.findAll();
         var testResult = new TestResult(student);
 
+        doAskQuestionsAndGetAnswers(questions, testResult);
+
+        return testResult;
+    }
+
+    private void doAskQuestionsAndGetAnswers(List<Question> questions, TestResult testResult) {
         for (var question: questions) {
             var isAnswerValid = false; // Задать вопрос, получить ответ
             int max = question.answers().size();
-            int answerIndex = ioService.readIntForRangeWithPrompt(
+            int answerIndex = ioService.readIntForRangeWithPromptLocalized(
                     1,
                     max,
                     questionToString(question),
-                    "Введите целое число от 1 до " + max) - 1;
+                    "TestService.out.of.range.message") - 1;
             isAnswerValid = question.answers().get(answerIndex).isCorrect();
             testResult.applyAnswer(question, isAnswerValid);
         }
-        return testResult;
     }
 
     private String questionToString(Question question) {
