@@ -2,9 +2,12 @@ package ru.otus.hw.dao;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.otus.hw.config.AppProperties;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.exceptions.QuestionReadException;
+import ru.otus.hw.service.TestRunnerService;
 
 import java.util.List;
 
@@ -12,14 +15,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 class CsvQuestionDaoTest {
 
+    @MockBean
     private AppProperties appProperties;
+
+    @MockBean
+    private TestRunnerService testRunnerService;
+
     private QuestionDao dao;
 
     @BeforeEach
     void setUp() {
-        appProperties = mock(AppProperties.class);
         dao = new CsvQuestionDao(appProperties);
     }
 
