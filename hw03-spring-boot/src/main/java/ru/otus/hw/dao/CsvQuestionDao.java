@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Component
 public class CsvQuestionDao implements QuestionDao {
+
     private final TestFileNameProvider fileNameProvider;
 
     @Override
