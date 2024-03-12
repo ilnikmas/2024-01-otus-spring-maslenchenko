@@ -13,7 +13,10 @@ import ru.otus.hw.models.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class JdbcBookRepository implements BookRepository {
@@ -29,7 +32,8 @@ public class JdbcBookRepository implements BookRepository {
         Map<String, Object> params = Collections.singletonMap("id", id);
         Book book;
         try {
-            book = jdbc.queryForObject("select b.id as book_id, b.title as book_title, a.id as author_id, a.full_name as author_name, " +
+            book = jdbc.queryForObject("select b.id as book_id, b.title as book_title, " +
+                    "a.id as author_id, a.full_name as author_name, " +
                     "g.id as genre_id, g.name as genre_name " +
                     "from authors a " +
                     "inner join books b on a.id=b.author_id " +
@@ -43,7 +47,8 @@ public class JdbcBookRepository implements BookRepository {
 
     @Override
     public List<Book> findAll() {
-        return jdbc.query("select b.id as book_id, b.title as book_title, a.id as author_id, a.full_name as author_name, " +
+        return jdbc.query("select b.id as book_id, b.title as book_title, " +
+                "a.id as author_id, a.full_name as author_name, " +
                 "g.id as genre_id, g.name as genre_name " +
                 "from authors a " +
                 "inner join books b on a.id=b.author_id " +
@@ -71,7 +76,8 @@ public class JdbcBookRepository implements BookRepository {
                 .addValue("title", book.getTitle())
                 .addValue("author", book.getAuthor().getId())
                 .addValue("genre", book.getGenre().getId());
-        jdbc.update("insert into books (title, author_id, genre_id) values (:title, :author, :genre)", params, keyHolder);
+        jdbc.update("insert into books (title, author_id, genre_id) values (:title, :author, :genre)",
+                params, keyHolder);
         //noinspection DataFlowIssue
         book.setId(keyHolder.getKeyAs(Long.class));
         return book;
