@@ -1,5 +1,6 @@
-target/
-dependency-reduced-pom.xml
+HELP.md
+/target/
+!.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
 .apt_generated
@@ -15,3 +16,8 @@ dependency-reduced-pom.xml
 *.iws
 *.iml
 *.ipr
+
+### VS Code ###
+.vscode/
+
+spring-shell.log
