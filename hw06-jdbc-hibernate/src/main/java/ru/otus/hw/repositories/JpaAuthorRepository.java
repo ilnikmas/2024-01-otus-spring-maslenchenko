@@ -4,6 +4,7 @@ import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw.models.Author;
 
@@ -23,6 +24,7 @@ public class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
+    @Transactional
     public List<Author> findAll() {
         EntityGraph<?> entityGraph = entityManager.getEntityGraph("authors-entity-graph");
         TypedQuery<Author> query = entityManager.createQuery("select distinct s from Author s", Author.class);
@@ -31,6 +33,7 @@ public class JpaAuthorRepository implements AuthorRepository {
     }
 
     @Override
+    @Transactional
     public Optional<Author> findById(long id) {
         return Optional.ofNullable(entityManager.find(Author.class, id));
     }

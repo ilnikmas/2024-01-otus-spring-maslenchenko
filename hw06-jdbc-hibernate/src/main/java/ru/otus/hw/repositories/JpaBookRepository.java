@@ -31,8 +31,13 @@ public class JpaBookRepository implements BookRepository {
                 Book.class);
         query.setHint(FETCH.getKey(), entityGraph);
         query.setParameter("id", id);
-        Book book = query.getSingleResult();
-        return Optional.of(book);
+        Book book;
+        try {
+            book = query.getSingleResult();
+            return Optional.of(book);
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -79,6 +84,7 @@ public class JpaBookRepository implements BookRepository {
         if (rowsUpdated == 0) {
             throw new EntityNotFoundException("No records was updated");
         }
+
         return book;
     }
 }
