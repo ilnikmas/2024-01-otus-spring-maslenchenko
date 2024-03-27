@@ -22,9 +22,4 @@ public class AuthorCommands {
                 .map(authorConverter::authorToString)
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }
-
-    @ShellMethod(value = "Add new author", key = "an")
-    public void addNewAuthor(String name) {
-        authorService.addAuthor(name);
-    }
 }

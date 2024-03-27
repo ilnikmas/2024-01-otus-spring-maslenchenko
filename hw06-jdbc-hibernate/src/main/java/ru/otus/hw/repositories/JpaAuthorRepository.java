@@ -34,12 +34,4 @@ public class JpaAuthorRepository implements AuthorRepository {
     public Optional<Author> findById(long id) {
         return Optional.ofNullable(entityManager.find(Author.class, id));
     }
-
-    @Override
-    public void addAuthor(String author) {
-        Author newAuthor = new Author();
-        newAuthor.setFullName(author);
-        entityManager.merge(newAuthor);
-        entityManager.getTransaction().commit();
-    }
 }

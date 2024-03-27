@@ -40,5 +40,5 @@ class JpaAuthorRepositoryTest {
         List<Author> authors = repositoryJpa.findAll();
         System.out.println(authors);
     }
-
+//select distinct a1_0.id,a1_0.full_name from authors a1_0
 }

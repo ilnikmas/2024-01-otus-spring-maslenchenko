@@ -1,46 +1,38 @@
 package ru.otus.hw.repositories;
 
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw.models.Genre;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
 
 @Repository
 public class JpaGenreRepository implements GenreRepository {
 
-    private final NamedParameterJdbcTemplate jdbc;
+    @PersistenceContext
+    private final EntityManager entityManager;
 
 
-    public JpaGenreRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbc = jdbcTemplate;
+    public JpaGenreRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
     public List<Genre> findAll() {
-        return jdbc.query("select id, name from genres", new GenreRowMapper());
+        EntityGraph<?> entityGraph = entityManager.getEntityGraph("genres-entity-graph");
+        TypedQuery<Genre> query = entityManager.createQuery("select distinct s from Genre s", Genre.class);
+        query.setHint(FETCH.getKey(), entityGraph);
+        return query.getResultList();
     }
 
     @Override
     public Optional<Genre> findById(long id) {
-        Map<String, Object> params = Collections.singletonMap("id", id);
-        Genre genre = jdbc.queryForObject("select id, name from genres where id = :id", params, new GenreRowMapper());
-        return genre == null ? Optional.empty() : Optional.of(genre);
-    }
-
-    private static class GenreRowMapper implements RowMapper<Genre> {
-
-        @Override
-        public Genre mapRow(ResultSet rs, int i) throws SQLException {
-            long id = rs.getLong("id");
-            String name = rs.getString("name");
-            return new Genre(id, name);
-        }
+        return Optional.ofNullable(entityManager.find(Genre.class, id));
     }
 }

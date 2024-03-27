@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "books")
-@NamedEntityGraph(name = "books-entity-graph", attributeNodes = {@NamedAttributeNode("author")})
+@NamedEntityGraph(name = "books-entity-graph", attributeNodes = {
+        @NamedAttributeNode("author"),
+        @NamedAttributeNode("genre")})
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +21,11 @@ public class Book {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", foreignKey = @ForeignKey(name = "AUTHOR_ID_FK"))
     private Author author;
 
-    @ManyToOne
-    @JoinColumn(name = "genre_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id", foreignKey = @ForeignKey(name = "GENRE_ID_FK"))
     private Genre genre;
 }
