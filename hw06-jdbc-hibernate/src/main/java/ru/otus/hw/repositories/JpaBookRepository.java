@@ -84,7 +84,7 @@ public class JpaBookRepository implements BookRepository {
         if (rowsUpdated == 0) {
             throw new EntityNotFoundException("No records was updated");
         }
-
+        entityManager.merge(book);
         return book;
     }
 }
