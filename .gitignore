@@ -15,3 +15,5 @@ dependency-reduced-pom.xml
 *.iws
 *.iml
 *.ipr
+
+spring-shell.log
