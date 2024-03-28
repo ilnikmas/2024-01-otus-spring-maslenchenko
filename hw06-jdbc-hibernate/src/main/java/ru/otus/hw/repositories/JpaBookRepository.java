@@ -1,10 +1,9 @@
 package ru.otus.hw.repositories;
 
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Book;
+import ru.otus.hw.models.Comment;
 
 import java.util.*;
 
@@ -55,9 +54,10 @@ public class JpaBookRepository implements BookRepository {
     @Override
     public Book save(Book book) {
         if (book.getId() == 0) {
-            return insert(book);
+            entityManager.persist(book);
+            return book;
         }
-        return update(book);
+        return entityManager.merge(book);
     }
 
     @Override
@@ -65,26 +65,5 @@ public class JpaBookRepository implements BookRepository {
         entityManager.createQuery("delete from Book where id = :id")
                 .setParameter("id", id)
                 .executeUpdate();
-    }
-
-    public Book insert(Book book) {
-        entityManager.persist(book);
-        return book;
-    }
-
-    public Book update(Book book) {
-        Query query = entityManager.createQuery("update Book b set b.title=:title, b.author=:author, b.genre=:genre " +
-                "where b.id=:id");
-        query.setParameter("id", book.getId());
-        query.setParameter("title", book.getTitle());
-        query.setParameter("author", book.getAuthor());
-        query.setParameter("genre", book.getGenre());
-        int rowsUpdated = query.executeUpdate();
-        // Выбросить EntityNotFoundException если не обновлено ни одной записи в БД
-        if (rowsUpdated == 0) {
-            throw new EntityNotFoundException("No records was updated");
-        }
-        entityManager.merge(book);
-        return book;
     }
 }

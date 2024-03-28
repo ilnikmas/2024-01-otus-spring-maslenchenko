@@ -11,9 +11,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
+import ru.otus.hw.models.Comment;
 import ru.otus.hw.models.Genre;
 
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,10 +24,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @DisplayName("Репозиторий на основе JPA для работы с книгами ")
 @DataJpaTest
 @Import({JpaBookRepository.class, JpaGenreRepository.class})
-class JdbcBookRepositoryTest {
+class JpaBookRepositoryTest {
 
     @Autowired
     private JpaBookRepository bookRepository;
+
+    @Autowired
+    private JpaAuthorRepository authorRepository;
+
+    @Autowired
+    private JpaGenreRepository genreRepository;
+
+    @Autowired
+    private JpaCommentRepository commentRepository;
 
     private List<Author> dbAuthors;
 
@@ -33,11 +44,15 @@ class JdbcBookRepositoryTest {
 
     private List<Book> dbBooks;
 
+    private List<Comment> dbComments;
+
+
     @BeforeEach
     void setUp() {
         dbAuthors = getDbAuthors();
         dbGenres = getDbGenres();
         dbBooks = getDbBooks(dbAuthors, dbGenres);
+        dbComments = getDbComments();
     }
 
     @DisplayName("должен загружать книгу по id")
@@ -63,7 +78,7 @@ class JdbcBookRepositoryTest {
     @DisplayName("должен сохранять новую книгу")
     @Test
     void shouldSaveNewBook() {
-        var expectedBook = new Book(0, "BookTitle_10500", dbAuthors.get(0), dbGenres.get(0));
+        var expectedBook = new Book(0, "BookTitle_10500", dbAuthors.get(0), dbGenres.get(0), dbComments);
         var returnedBook = bookRepository.save(expectedBook);
         assertThat(returnedBook).isNotNull()
                 .matches(book -> book.getId() > 0)
@@ -80,7 +95,7 @@ class JdbcBookRepositoryTest {
     @Test
     void shouldSaveUpdatedBook() {
         assertNotNull(bookRepository.findById(1L));
-        var expectedBook = new Book(1L, "BookTitle_10500", dbAuthors.get(2), dbGenres.get(2));
+        var expectedBook = new Book(1L, "BookTitle_10500", dbAuthors.get(2), dbGenres.get(2), dbComments);
 
         assertThat(bookRepository.findById(expectedBook.getId()))
                 .isPresent()
@@ -108,9 +123,10 @@ class JdbcBookRepositoryTest {
     }
 
     private static List<Author> getDbAuthors() {
-        return IntStream.range(1, 4).boxed()
-                .map(id -> new Author(id, "Author_" + id))
-                .toList();
+        return
+//        return IntStream.range(1, 4).boxed()
+//                .map(id -> new Author(id, "Author_" + id))
+//                .toList();
     }
 
     private static List<Genre> getDbGenres() {

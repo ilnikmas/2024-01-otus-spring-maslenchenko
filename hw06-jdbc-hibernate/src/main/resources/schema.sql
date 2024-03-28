@@ -12,6 +12,14 @@ create table genres
     primary key (id)
 );
 
+create table comments
+(
+    id        bigserial,
+    text     varchar(255),
+    book_id bigint,
+    primary key (id)
+);
+
 create table books
 (
     id        bigserial,
@@ -20,3 +28,7 @@ create table books
     genre_id  bigint references genres (id) on delete cascade,
     primary key (id)
 );
+
+alter table comments
+add constraint FK_BOOK_ID
+foreign key (book_id) references books (id)

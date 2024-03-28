@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "authors")
-@NamedEntityGraph(name = "authors-entity-graph")
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
