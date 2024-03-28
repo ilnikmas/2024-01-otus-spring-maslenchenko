@@ -24,8 +24,6 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
-    private final CommentRepository commentRepository;
-
     @Override
     @Transactional
     public Optional<Book> findById(long id) {
@@ -40,14 +38,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book insert(String title, long authorId, long genreId, long commentId) {
-        return save(0, title, authorId, genreId, commentId);
+    public Book insert(String title, long authorId, long genreId) {
+        return save(0, title, authorId, genreId);
     }
 
     @Override
     @Transactional
-    public Book update(long id, String title, long authorId, long genreId, long commentId) {
-        return save(id, title, authorId, genreId, commentId);
+    public Book update(long id, String title, long authorId, long genreId) {
+        return save(id, title, authorId, genreId);
     }
 
     @Override
@@ -57,16 +55,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Transactional
-    public Book save(long id, String title, long authorId, long genreId, long commentId) {
+    public Book save(long id, String title, long authorId, long genreId) {
         var author = authorRepository.findById(authorId)
                 .orElseThrow(() -> new EntityNotFoundException("Author with id %d not found".formatted(authorId)));
         var genre = genreRepository.findById(genreId)
                 .orElseThrow(() -> new EntityNotFoundException("Genre with id %d not found".formatted(genreId)));
-        var comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new EntityNotFoundException("Comment with id %d not found".formatted(commentId)));
-        var commentList = commentRepository.findAllByBookId(id);
-        commentList.add(comment);
-        var book = new Book(id, title, author, genre, commentList);
+        var book = new Book(id, title, author, genre);
         return bookRepository.save(book);
     }
 }

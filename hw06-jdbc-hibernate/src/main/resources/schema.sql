@@ -28,7 +28,3 @@ create table books
     genre_id  bigint references genres (id) on delete cascade,
     primary key (id)
 );
-
-alter table comments
-add constraint FK_BOOK_ID
-foreign key (book_id) references books (id)

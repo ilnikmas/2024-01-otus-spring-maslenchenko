@@ -11,11 +11,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
-import ru.otus.hw.models.Comment;
 import ru.otus.hw.models.Genre;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,30 +27,17 @@ class JpaBookRepositoryTest {
     @Autowired
     private JpaBookRepository bookRepository;
 
-    @Autowired
-    private JpaAuthorRepository authorRepository;
-
-    @Autowired
-    private JpaGenreRepository genreRepository;
-
-    @Autowired
-    private JpaCommentRepository commentRepository;
-
     private List<Author> dbAuthors;
 
     private List<Genre> dbGenres;
 
     private List<Book> dbBooks;
 
-    private List<Comment> dbComments;
-
-
     @BeforeEach
     void setUp() {
         dbAuthors = getDbAuthors();
         dbGenres = getDbGenres();
         dbBooks = getDbBooks(dbAuthors, dbGenres);
-        dbComments = getDbComments();
     }
 
     @DisplayName("должен загружать книгу по id")
@@ -78,7 +63,7 @@ class JpaBookRepositoryTest {
     @DisplayName("должен сохранять новую книгу")
     @Test
     void shouldSaveNewBook() {
-        var expectedBook = new Book(0, "BookTitle_10500", dbAuthors.get(0), dbGenres.get(0), dbComments);
+        var expectedBook = new Book(0, "BookTitle_10500", dbAuthors.get(0), dbGenres.get(0));
         var returnedBook = bookRepository.save(expectedBook);
         assertThat(returnedBook).isNotNull()
                 .matches(book -> book.getId() > 0)
@@ -95,7 +80,7 @@ class JpaBookRepositoryTest {
     @Test
     void shouldSaveUpdatedBook() {
         assertNotNull(bookRepository.findById(1L));
-        var expectedBook = new Book(1L, "BookTitle_10500", dbAuthors.get(2), dbGenres.get(2), dbComments);
+        var expectedBook = new Book(1L, "BookTitle_10500", dbAuthors.get(2), dbGenres.get(2));
 
         assertThat(bookRepository.findById(expectedBook.getId()))
                 .isPresent()
@@ -123,10 +108,9 @@ class JpaBookRepositoryTest {
     }
 
     private static List<Author> getDbAuthors() {
-        return
-//        return IntStream.range(1, 4).boxed()
-//                .map(id -> new Author(id, "Author_" + id))
-//                .toList();
+        return IntStream.range(1, 4).boxed()
+                .map(id -> new Author(id, "Author_" + id))
+                .toList();
     }
 
     private static List<Genre> getDbGenres() {

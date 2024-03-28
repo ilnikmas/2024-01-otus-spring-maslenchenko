@@ -1,44 +1,58 @@
 package ru.otus.hw.repositories;
 
-import org.hibernate.SessionFactory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.hw.models.Author;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("Репозиторий на основе JPA для работы с авторами ")
 @DataJpaTest
 @Import(JpaAuthorRepository.class)
 class JpaAuthorRepositoryTest {
 
     @Autowired
-    private JpaAuthorRepository repositoryJpa;
+    private JpaAuthorRepository authorRepository;
 
-    @Autowired
-    private TestEntityManager em;
+    private List<Author> dbAuthors;
 
-    @Test
-    void test_1() {
-        Optional<Author> actualAuthor = repositoryJpa.findById(1);
-        Author expectedAuthor = em.find(Author.class, 1);
-        assertThat(actualAuthor).isPresent().get()
-                .usingRecursiveComparison().isEqualTo(expectedAuthor);
+    @BeforeEach
+    void setUp() {
+        dbAuthors = getDbAuthors();
     }
 
-    @Test
-    void test_2() {
-        SessionFactory sessionFactory = em.getEntityManager().getEntityManagerFactory()
-                .unwrap(SessionFactory.class);
-        sessionFactory.getStatistics().setStatisticsEnabled(true);
-
-        List<Author> authors = repositoryJpa.findAll();
-        System.out.println(authors);
+    @DisplayName("должен возвращать авторов по id")
+    @ParameterizedTest
+    @MethodSource("getDbAuthors")
+    void shouldReturnCorrectAuthorsById(Author expectedAuthor) {
+        var actualAuthor = authorRepository.findById(expectedAuthor.getId());
+        assertThat(actualAuthor).isPresent()
+                .get()
+                .isEqualTo(expectedAuthor);
     }
-//select distinct a1_0.id,a1_0.full_name from authors a1_0
+
+    @DisplayName("должен загружать список всех авторов")
+    @Test
+    void shouldReturnCorrectAuthorsList() {
+        var actualAuthors = authorRepository.findAll();
+        var expectedAuthors = dbAuthors;
+
+        assertThat(actualAuthors).containsExactlyElementsOf(expectedAuthors);
+        actualAuthors.forEach(System.out::println);
+    }
+
+    private static List<Author> getDbAuthors() {
+        return IntStream.range(1, 4).boxed()
+                .map(id -> new Author(id, "Author_" + id))
+                .toList();
+    }
 }
