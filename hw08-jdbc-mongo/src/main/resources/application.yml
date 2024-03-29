@@ -1,0 +1,11 @@
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+#      username: sys
+#      password: sys
+      database: test
+#      port: 27114
+      host: localhost
+      uuid-representation: standard
+#      uri: mongodb://sys:sys-dev@10.97.141.31:27117/?replicaSet=rs01&connectTimeoutMS=300000&minPoolSize=10&maxPoolSize=100&maxIdleTimeMS=900000&readPreference=secondaryPreferred
