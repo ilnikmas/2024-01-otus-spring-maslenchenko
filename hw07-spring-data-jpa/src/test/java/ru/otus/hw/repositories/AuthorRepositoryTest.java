@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий на основе JPA для работы с авторами ")
 @DataJpaTest
-@Import(AuthorRepository.class)
 class AuthorRepositoryTest {
 
     @Autowired
