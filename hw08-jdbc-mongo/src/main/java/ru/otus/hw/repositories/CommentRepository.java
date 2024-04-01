@@ -10,5 +10,7 @@ public interface CommentRepository extends MongoRepository<Comment, Long> {
 
     Optional<Comment> findById(long id);
 
-    List<Comment> findAllByBookId(long id);
+    List<Comment> findAllByBookId(long bookId);
+
+    Comment insert(Comment comment);
 }

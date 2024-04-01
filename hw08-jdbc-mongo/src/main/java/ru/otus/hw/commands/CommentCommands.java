@@ -25,4 +25,10 @@ public class CommentCommands {
                 .map(commentConverter::commentToString)
                 .orElse("Comment with id %d not found").formatted(id);
     }
+
+    @ShellMethod(value = "Add new comment", key = "ancom")
+    public String addNewComment(long bookId, String commentText) {
+        var savedComment = commentService.insert(bookId, commentText);
+        return commentConverter.commentToString(savedComment);
+    }
 }

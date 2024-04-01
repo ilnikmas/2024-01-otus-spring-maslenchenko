@@ -11,6 +11,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class CommentServiceImpl implements CommentService {
+
+    private final SequenceGeneratorService sequenceGeneratorService;
+
     private final CommentRepository commentRepository;
 
     @Override
@@ -22,4 +25,12 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> findAllByBookId(long id) {
         return commentRepository.findAllByBookId(id);
     }
+
+    @Override
+    public Comment insert(long bookId, String commentText) {
+        long id = sequenceGeneratorService.generateSequence(Comment.SEQUENCE_NAME);
+        return commentRepository.insert(new Comment(id, bookId, commentText));
+    }
+
+
 }
