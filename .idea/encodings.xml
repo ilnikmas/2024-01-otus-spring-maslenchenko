@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/hw01-xml-config/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw01-xml-config/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw01/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw01/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw02-annotation-config/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw02-annotation-config/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw03-spring-boot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw03-spring-boot/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw04-spring-shell/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw04-spring-shell/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw05-jdbc-simple/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw05-jdbc-simple/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw06-jdbc-hibernate/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw06-jdbc-hibernate/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw07-spring-data-jpa/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw07-spring-data-jpa/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw08-jdbc-mongo/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hw08-jdbc-mongo/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

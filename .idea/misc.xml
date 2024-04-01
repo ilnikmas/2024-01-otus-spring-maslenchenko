@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/hw02-annotation-config/pom.xml" />
+        <option value="$PROJECT_DIR$/hw03-spring-boot/pom.xml" />
+        <option value="$PROJECT_DIR$/hw01/pom.xml" />
+        <option value="$PROJECT_DIR$/hw04-spring-shell/pom.xml" />
+        <option value="$PROJECT_DIR$/hw01-xml-config/pom.xml" />
+        <option value="$PROJECT_DIR$/hw05-jdbc-simple/pom.xml" />
+        <option value="$PROJECT_DIR$/hw06-jdbc-hibernate/pom.xml" />
+        <option value="$PROJECT_DIR$/hw07-spring-data-jpa/pom.xml" />
+        <option value="$PROJECT_DIR$/hw08-jdbc-mongo/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17 (2)" project-jdk-type="JavaSDK" />
+</project>

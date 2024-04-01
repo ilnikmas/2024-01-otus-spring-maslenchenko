@@ -1,0 +1,20 @@
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>target/\ndependency-reduced-pom.xml\n\n### STS ###\n.apt_generated\n.classpath\n.factorypath\n.project\n.settings\n.springBeans\n.sts4-cache\n\n### IntelliJ IDEA ###\n.idea\n*.iws\n*.iml\n*.ipr
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	(revision e32c0065a4c2e44bc2af6da74b656f98dae3a588)
++++ b/.gitignore	(date 1711946363446)
+@@ -14,4 +14,6 @@
+ .idea
+ *.iws
+ *.iml
+-*.ipr
+\ No newline at end of file
++*.ipr
++
++spring-shell.log
+\ No newline at end of file
