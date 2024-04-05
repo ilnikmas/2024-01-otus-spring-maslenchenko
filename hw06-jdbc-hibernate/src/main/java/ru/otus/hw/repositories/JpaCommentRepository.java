@@ -20,12 +20,6 @@ public class JpaCommentRepository implements CommentRepository {
     }
 
     @Override
-    public List<Comment> findAll() {
-        TypedQuery<Comment> query = entityManager.createQuery("select c from Comment c", Comment.class);
-        return query.getResultList();
-    }
-
-    @Override
     public Optional<Comment> findById(long id) {
         return Optional.ofNullable(entityManager.find(Comment.class, id));
     }
